@@ -1,2 +1,0 @@
-INSERT INTO clientes (nombre, apellido, email, create_at) VALUES(1, 'Raúl', 'Márquez', 'raulmu785@gmail.com', '2023-09-27');
-INSERT INTO clientes (nombre, apellido, email, create_at) VALUES(2, 'Agustín', 'García', 'agusgarcia@gmail.com', '2023-09-27');
