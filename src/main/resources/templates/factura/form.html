@@ -65,7 +65,7 @@
 
                     <table th:replace="~{factura/plantilla-items :: itemsFactura}"></table>
 
-                    <table id="cargarItemProductos" class="table table-sm table-striped table-hover">
+                    <table id="cargarItemProductos" class="table table-sm table-striped table-hover my-4" >
                         <thead>
                             <tr>
                                 <th>Nombre</th>
@@ -76,9 +76,9 @@
                             </tr>
                         </thead>
                         <tbody>
-
                         </tbody>
                     </table>
+                    <h5>Total <span class="badge" style="background-color: gray;" id="gran_total">0€</span></h5>
 
                     <div class="form-group">
                         <input class="btn btn-primary mt-3" type="submit" th:value="${titulo}" />
