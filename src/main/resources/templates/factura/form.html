@@ -63,6 +63,22 @@
                         </div>
                     </div>
 
+                    <table th:replace="~{factura/plantilla-items :: itemsFactura}"></table>
+
+                    <table id="cargarItemProductos" class="table table-sm table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+
                     <div class="form-group">
                         <input class="btn btn-primary mt-3" type="submit" th:value="${titulo}" />
                     </div>
