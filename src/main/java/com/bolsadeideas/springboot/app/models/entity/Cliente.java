@@ -1,15 +1,20 @@
 package com.bolsadeideas.springboot.app.models.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 // import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -42,7 +47,14 @@ public class Cliente implements Serializable {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date createAt;
 
+    @OneToMany(mappedBy ="cliente" ,fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Factura> facturas;
+
     private String foto;
+
+    public Cliente() {
+        facturas = new ArrayList<Factura>();
+    }
 
     public Long getId() {
         return id;
@@ -92,9 +104,19 @@ public class Cliente implements Serializable {
         this.foto = foto;
     }
 
-    public static long getSerialversionuid() {
-        return serialVersionUID;
+    public List<Factura> getFacturas() {
+        return facturas;
     }
+
+    public void setFacturas(List<Factura> facturas) {
+        this.facturas = facturas;
+    }
+
+    public void addFactura(Factura factura) {
+        facturas.add(factura);
+    }
+
+    // -------------- SERIAL VERSION -----------------
 
     private static final long serialVersionUID = 1L;
 
