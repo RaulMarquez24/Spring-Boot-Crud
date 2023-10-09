@@ -45,6 +45,12 @@
                     return false;
                 }
             });
+
+            $("form").submit(function(){
+                $("#platillaItemsFactura").remove();
+                return;
+            });
+
         });
 
         var itemsHelper = {

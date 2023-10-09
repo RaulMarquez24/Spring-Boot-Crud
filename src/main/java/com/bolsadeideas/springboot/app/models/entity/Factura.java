@@ -19,6 +19,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "facturas")
@@ -28,6 +29,7 @@ public class Factura implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     private String descripcion;
 
     private String observacion;
@@ -104,7 +106,7 @@ public class Factura implements Serializable {
         this.items.add(item);
     }
 
-    public Double getTotal(){
+    public Double getTotal() {
         Double total = 0.0;
 
         int size = items.size();
@@ -112,6 +114,9 @@ public class Factura implements Serializable {
         for (int i = 0; i < size; i++) {
             total += items.get(i).calcularImporte();
         }
+
+        // Redondear el valor a dos decimales
+        total = Math.round(total * 100.0) / 100.0;
 
         return total;
     }

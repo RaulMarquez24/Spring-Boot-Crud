@@ -38,7 +38,7 @@
                         <label class="col-form-label col-sm-2" for="descripcion">Descripcion</label>
                         <div class="col-sm-6">
                             <input class="form-control" type="text" th:field="*{descripcion}"
-                                th:errorclass="'form-control alert alert-danger'" />
+                                th:errorclass="'form-control is-invalid'" />
                             <small class="form-text text-danger" th:if="${#fields.hasErrors('descripcion')}"
                                 th:errors="*{descripcion}">
                             </small>
