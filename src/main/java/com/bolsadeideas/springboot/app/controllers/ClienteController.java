@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,6 +38,8 @@ import jakarta.validation.Valid;
 @Controller
 @SessionAttributes("cliente")
 public class ClienteController {
+
+    protected final Log logger = LogFactory.getLog(this.getClass());
 
     @Autowired
     private IClienteService clienteService;
@@ -61,7 +67,7 @@ public class ClienteController {
     @GetMapping(value = "/ver/{id}")
     public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
 
-        Cliente cliente = clienteService.fetchByIdWithFacturas(id); //clienteService.findOne(id);
+        Cliente cliente = clienteService.fetchByIdWithFacturas(id); // clienteService.findOne(id);
 
         if (cliente == null) {
             flash.addFlashAttribute("error", "El cliente no existe en la base de datos");
@@ -74,8 +80,20 @@ public class ClienteController {
         return "ver";
     }
 
-    @RequestMapping(value = "listar", method = RequestMethod.GET)
-    public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
+    @RequestMapping(value = { "/listar", "/" }, method = RequestMethod.GET)
+    public String listar(@RequestParam(name = "page", defaultValue = "0") int page,
+            Model model,
+            Authentication authentication) {
+
+        if (authentication != null) {
+            logger.info("Hola usuario autenticado, tu username es: ".concat(authentication.getName()));
+        }
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth != null) {
+            logger.info("Utilizando forma estática => Usuario autenticado, username: ".concat(auth.getName()));
+        }
 
         Pageable pageRequest = PageRequest.of(page, 5);
 

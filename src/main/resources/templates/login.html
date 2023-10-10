@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout/layout :: head}"></head>
+
+<body>
+
+    <header th:replace="~{layout/layout :: header}"></header>
+
+    <div class="container py-4">
+
+        <div class="card mx-auto border-primary" style="max-width: 400px;">
+            <div class="card-header text-center border-primary">Por favor Iniciar Sesión</div>
+            <div class="card-body">
+
+                <form th:action="@{/login}" method="post" class="needs-validation" novalidate>
+
+                    <div class="form-group my-3">
+                        <label for="username">Usuario:</label>
+                        <input type="text" name="username" id="username" class="form-control" placeholder="Usuario"
+                            autofocus required>
+                    </div>
+
+                    <div class="form-group my-3">
+                        <label for="password">Contraseña:</label>
+                        <input type="password" name="password" id="password" class="form-control"
+                            placeholder="Contraseña" required>
+                    </div>
+
+                    <div class="text-center my-3">
+                        <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+                    </div>
+
+                </form>
+                <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> -->
+
+            </div>
+        </div>
+
+    </div>
+
+    <footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+
+</html>

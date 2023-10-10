@@ -5,6 +5,7 @@ package com.bolsadeideas.springboot.app;
 // import org.slf4j.Logger;
 // import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 // import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -24,5 +25,9 @@ public class MvcConfig implements WebMvcConfigurer {
     //     // LINUX "file:/opt/uploads/" WINDOWS "file:/C:/Temp/uploads/" --> esta forma es la mas adecuada
     //     registry.addResourceHandler("/uploads/**").addResourceLocations(resourcePath);
     // }
+
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/error_403").setViewName("error/error_403");
+    }
 
 }
