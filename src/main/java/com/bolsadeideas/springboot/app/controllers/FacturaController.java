@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +26,7 @@ import com.bolsadeideas.springboot.app.models.services.IClienteService;
 
 import jakarta.validation.Valid;
 
+@Secured("ROLE_ADMIN")
 @Controller
 @RequestMapping("/factura")
 @SessionAttributes("factura")
@@ -36,7 +38,7 @@ public class FacturaController {
     @GetMapping("/ver/{id}")
     public String ver(@PathVariable Long id, Model model, RedirectAttributes flash) {
 
-        Factura factura = clienteService.fetchFacturaByIdWithClienteWithItemFacturaWithProducto(id);//clienteService.findFacturaById(id);
+        Factura factura = clienteService.fetchFacturaByIdWithClienteWithItemFacturaWithProducto(id);// clienteService.findFacturaById(id);
 
         if (factura == null) {
             flash.addFlashAttribute("error", "La factura no existe en la base de datos!");
@@ -111,7 +113,7 @@ public class FacturaController {
     }
 
     @GetMapping("/eliminar/{id}")
-    public String eliminar(@PathVariable Long id, RedirectAttributes flash){
+    public String eliminar(@PathVariable Long id, RedirectAttributes flash) {
 
         Factura factura = clienteService.findFacturaById(id);
 

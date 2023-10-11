@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,6 +27,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
+@EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SpringSecurityConfig {
 
     @Autowired
@@ -45,11 +47,11 @@ public class SpringSecurityConfig {
                         mvc.pattern("/js/**"),
                         mvc.pattern("/images/**"),
                         mvc.pattern("/listar")).permitAll()
-                        .requestMatchers(mvc.pattern("/uploads/**")).hasAnyRole("USER")
-                        .requestMatchers(mvc.pattern("/ver/**")).hasRole("USER")
-                        .requestMatchers(mvc.pattern("/factura/**")).hasRole("ADMIN")
-                        .requestMatchers(mvc.pattern("/form/**")).hasRole("ADMIN")
-                        .requestMatchers(mvc.pattern("/eliminar/**")).hasRole("ADMIN")
+                        // .requestMatchers(mvc.pattern("/uploads/**")).hasAnyRole("USER")
+                        // .requestMatchers(mvc.pattern("/ver/**")).hasRole("USER")
+                        // .requestMatchers(mvc.pattern("/factura/**")).hasRole("ADMIN")
+                        // .requestMatchers(mvc.pattern("/form/**")).hasRole("ADMIN")
+                        // .requestMatchers(mvc.pattern("/eliminar/**")).hasRole("ADMIN")
                         .anyRequest().authenticated();
                 // .and()
                 // .formLogin(formLogin -> formLogin.permitAll()).logout
