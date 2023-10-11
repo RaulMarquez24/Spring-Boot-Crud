@@ -1,4 +1,40 @@
 USE db_springboot;
+
+-- Crear tabla usuarios
+CREATE TABLE users (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    enabled TINYINT(1) NOT NULL DEFAULT 1,
+    UNIQUE KEY unique_username (username)
+);
+
+-- Crear tabla authorities
+CREATE TABLE authorities (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    authority VARCHAR(255) NOT NULL,
+    UNIQUE INDEX user_id_authority_unique (user_id ASC, authority ASC),
+    CONSTRAINT fk_authorities_users
+        FOREIGN KEY (user_id)
+        REFERENCES users (id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+-- Insertar el usuario con rol ROLE_ADMIN
+INSERT INTO users (username, password, enabled) VALUES ('admin', '$2a$10$t2dQcpC6wsexSCbqQb0Zq.G1oNQU5WOAhyUM70MarllcydaM1IfIa', 1);
+
+-- Asignar el rol ROLE_ADMIN al usuario
+INSERT INTO authorities (user_id, authority) SELECT id, 'ROLE_ADMIN' FROM users WHERE username = 'admin';
+INSERT INTO authorities (user_id, authority) SELECT id, 'ROLE_USER' FROM users WHERE username = 'admin';
+
+-- Insertar el usuario con rol ROLE_USER
+INSERT INTO users (username, password, enabled) VALUES ('user', '$2a$10$wt.Os6CDsRqhzXQhKB6NGO6J4rGncoI68EEmqNAEiblZtHHE/a2T.', 1);
+
+-- Asignar el rol ROLE_USER al usuario
+INSERT INTO authorities (user_id, authority) SELECT id, 'ROLE_USER' FROM users WHERE username = 'user';
+
 -- Insertar 50 registros de ejemplo en la tabla 'clientes' sin ID
 INSERT INTO clientes (nombre, apellido, email, create_at, foto) VALUES
 ('Alejandro', 'Gómez', 'alejandro@example.com', NOW(), ''),
