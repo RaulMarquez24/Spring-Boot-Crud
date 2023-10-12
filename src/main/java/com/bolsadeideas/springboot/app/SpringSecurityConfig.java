@@ -2,8 +2,6 @@ package com.bolsadeideas.springboot.app;
 
 import java.io.IOException;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,10 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-// import org.springframework.security.core.userdetails.User;
-// import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-// import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
@@ -25,6 +20,7 @@ import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import com.bolsadeideas.springboot.app.auth.handler.LoginSuccesHandler;
+import com.bolsadeideas.springboot.app.models.services.JpaUserDetailsService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,7 +34,7 @@ public class SpringSecurityConfig {
     private LoginSuccesHandler succesHandler;
 
     @Autowired
-    private DataSource dataSource;
+    private JpaUserDetailsService userDetailsService;
 
     @Bean
     MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
@@ -95,35 +91,13 @@ public class SpringSecurityConfig {
         };
     }
 
-    // @Bean
-    // public UserDetailsService userDetailsService() throws Exception {
-
-    // InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-    // manager.createUser(User
-    // .withUsername("user")
-    // .password(passwordEncoder().encode("user"))
-    // .roles("USER")
-    // .build());
-    // manager.createUser(User
-    // .withUsername("admin")
-    // .password(passwordEncoder().encode("admin"))
-    // .roles("ADMIN", "USER")
-    // .build());
-
-    // return manager;
-    // }
-
     @Bean
     AuthenticationManager authManager(HttpSecurity http) throws Exception {
 
         AuthenticationManagerBuilder authBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
 
-        authBuilder.jdbcAuthentication()
-                .dataSource(dataSource)
-                .passwordEncoder(passwordEncoder())
-                .usersByUsernameQuery("select username, password, enabled from users where username=?")
-                .authoritiesByUsernameQuery(
-                        "select u.username, a.authority from authorities a inner join users u on (a.user_id=u.id) where u.username=?");
+        authBuilder.userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
 
         return authBuilder.build();
     }
