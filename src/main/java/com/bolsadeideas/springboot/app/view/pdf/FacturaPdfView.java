@@ -21,7 +21,7 @@ import com.lowagie.text.pdf.PdfWriter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@Component("factura/ver")
+@Component("factura/ver.pdf")
 public class FacturaPdfView extends AbstractPdfView {
 
     @Autowired
