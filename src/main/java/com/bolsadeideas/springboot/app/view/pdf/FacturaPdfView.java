@@ -19,15 +19,17 @@ public class FacturaPdfView extends AbstractPdfView {
     @Override
     protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-                
+
         Factura factura = (Factura) model.get("factura");
 
         PdfPTable tabla1 = new PdfPTable(1);
+        tabla1.setSpacingAfter(20);
         tabla1.addCell("Datos del Cliente");
         tabla1.addCell(factura.getCliente().getNombre() + " " + factura.getCliente().getApellido());
         tabla1.addCell(factura.getCliente().getEmail());
 
         PdfPTable tabla2 = new PdfPTable(1);
+        tabla2.setSpacingAfter(20);
         tabla2.addCell("Datos de la Factura");
         tabla2.addCell("Folio: " + factura.getId());
         tabla2.addCell("Descripción: " + factura.getDescripcion());
@@ -36,8 +38,6 @@ public class FacturaPdfView extends AbstractPdfView {
         document.add(tabla1);
         document.add(tabla2);
 
-        
-
     }
-    
+
 }
