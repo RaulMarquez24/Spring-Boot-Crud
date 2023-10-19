@@ -49,8 +49,9 @@ public class SpringSecurityConfig {
                         mvc.pattern("/css/**"),
                         mvc.pattern("/js/**"),
                         mvc.pattern("/images/**"),
-                        mvc.pattern("/listar"),
-                        mvc.pattern("/locale")).permitAll()
+                        mvc.pattern("/listar**"),
+                        mvc.pattern("/locale"),
+                        mvc.pattern("/api/clientes/**")).permitAll()
                         // .requestMatchers(mvc.pattern("/uploads/**")).hasAnyRole("USER")
                         // .requestMatchers(mvc.pattern("/ver/**")).hasRole("USER")
                         // .requestMatchers(mvc.pattern("/factura/**")).hasRole("ADMIN")
