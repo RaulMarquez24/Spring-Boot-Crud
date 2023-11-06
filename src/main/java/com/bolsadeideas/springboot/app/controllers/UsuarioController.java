@@ -15,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -105,6 +107,23 @@ public class UsuarioController {
         usuarioService.save(usuario);
         status.setComplete();
         flash.addFlashAttribute("success", mensajeFlash);
+        return "redirect:/usuarios/listar";
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/usuarios/eliminar/{id}")
+    public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash, Locale locale) {
+
+        if (usuarioService.findOne(id) == null) {
+            flash.addFlashAttribute("error", messageSource.getMessage("text.usuario.flash.db.error", null, locale));
+            return "redirect:/usuarios/listar";
+        }
+
+        if (id > 0) {
+            usuarioService.delete(id);
+            flash.addFlashAttribute("success", messageSource.getMessage("text.usuario.flash.eliminar.success", null, locale));
+        }
+
         return "redirect:/usuarios/listar";
     }
 

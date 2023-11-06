@@ -44,7 +44,7 @@
                                 <a class="btn btn-primary btn-xs" th:href="@{/usuarios/form/} + ${usuario.id}"
                                     th:text="#{text.usuario.editar}"></a>
                             </td>
-                            <td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-danger btn-xs" th:href="@{usuarios/eliminar/} + ${usuario.id}"
+                            <td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-danger btn-xs" th:href="@{/usuarios/eliminar/} + ${usuario.id}"
                                     th:text="#{text.usuario.eliminar}"
                                     onclick="return confirm(document.getElementById('i18n_eliminar_usuario').innerHTML);"></a></td>
                         </tr>
