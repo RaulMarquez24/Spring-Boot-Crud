@@ -43,7 +43,7 @@ public class UsuarioController {
     private MessageSource messageSource;
 
     @Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/usuarios/listar", method = RequestMethod.GET)
@@ -67,7 +67,7 @@ public class UsuarioController {
     }
 
     @Secured("ROLE_ADMIN")
-    @RequestMapping(value = "/usuarios/form", method = RequestMethod.GET)
+    @RequestMapping(value = "/usuarios/form")
     public String crear(Map<String, Object> model, Locale locale) {
 
         Usuario usuario = new Usuario();
@@ -84,10 +84,6 @@ public class UsuarioController {
             RedirectAttributes flash,
             SessionStatus status, Locale locale) {
 
-        if (usuarioService.findByUsername(usuario.getUsername()) != null) {
-            result.rejectValue("username", "usuario.username.duplicate");
-        }
-
         if (result.hasErrors()) {
             model.addAttribute("titulo", messageSource.getMessage("text.usuario.form.titulo.crear", null, locale));
             return "usuarios/form";
@@ -97,10 +93,16 @@ public class UsuarioController {
 
         if (usuario.getId() == null) {
             usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-            usuario.setRoles(usuario.isAdmin() ? Arrays.asList(new Role("ROLE_ADMIN"), new Role("ROLE_USER")) : Arrays.asList(new Role("ROLE_USER")));
+            usuario.setRoles(usuario.isAdmin() ? Arrays.asList(new Role("ROLE_ADMIN"), new Role("ROLE_USER")): Arrays.asList(new Role("ROLE_USER")));
             usuario.setEnabled(true);
             mensajeFlash = messageSource.getMessage("text.usuario.flash.crear.success", null, locale);
+            if (usuarioService.findByUsername(usuario.getUsername()) != null) {
+                result.rejectValue("username", "usuario.username.duplicate");
+            }
         } else {
+            
+            // usuario.setRoles(usuario.isAdmin() ? Arrays.asList(new Role("ROLE_ADMIN")) : usuario.getRoles());
+            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
             mensajeFlash = messageSource.getMessage("text.usuario.flash.editar.success", null, locale);
         }
 
@@ -108,6 +110,30 @@ public class UsuarioController {
         status.setComplete();
         flash.addFlashAttribute("success", mensajeFlash);
         return "redirect:/usuarios/listar";
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping(value = "/usuarios/form/{id}")
+    public String editar(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash,
+            Locale locale) {
+
+        Usuario usuario = null;
+
+        if (id > 0) {
+            usuario = usuarioService.findOne(id);
+            if (usuario == null) {
+                flash.addFlashAttribute("error", messageSource.getMessage("text.usuario.flash.db.error", null, locale));
+                return "redirect:/usuarios/listar";
+            }
+        } else {
+            flash.addFlashAttribute("error", messageSource.getMessage("text.usuario.flash.id.error", null, locale));
+            return "redirect:/usuarios/listar";
+        }
+
+        model.put("usuario", usuario);
+        model.put("titulo", messageSource.getMessage("text.usuario.form.titulo.editar", null, locale));
+
+        return "usuarios/form";
     }
 
     @Secured("ROLE_ADMIN")
@@ -121,7 +147,8 @@ public class UsuarioController {
 
         if (id > 0) {
             usuarioService.delete(id);
-            flash.addFlashAttribute("success", messageSource.getMessage("text.usuario.flash.eliminar.success", null, locale));
+            flash.addFlashAttribute("success",
+                    messageSource.getMessage("text.usuario.flash.eliminar.success", null, locale));
         }
 
         return "redirect:/usuarios/listar";

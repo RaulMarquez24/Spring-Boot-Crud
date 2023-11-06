@@ -50,6 +50,7 @@ public class SpringBootDataJpaApplication implements CommandLineRunner {
 			firstUser.setEnabled(true);
 			usuarioService.save(firstUser);
 
+			System.out.println("Crea un nuevo administrador propio y borre esté de inicio");
 			System.out.println("Usuario de Inicio: " + startUsername);
 			System.out.println("Contraseña de Inicio: " + startPassword);
 

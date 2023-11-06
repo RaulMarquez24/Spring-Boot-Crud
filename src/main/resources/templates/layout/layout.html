@@ -29,7 +29,7 @@
                             <a class="nav-link" th:href="@{/listar}" th:text="#{text.menu.customer}">Clientes</a>
                         </li>
                         <li class="nav-item">
-                            <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link active" th:href="@{/usuarios/listar}" th:text="#{text.menu.user}">Usuarios</a>
+                            <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" th:href="@{/usuarios/listar}" th:text="#{text.menu.user}">Usuarios</a>
                         </li>
                     </ul>
                     <form class="d-flex" role="search">

@@ -13,7 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotEmpty;
 
 @Entity
@@ -33,7 +32,6 @@ public class Usuario implements Serializable {
 
     private Boolean enabled;
 
-    @Transient
     private boolean admin;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

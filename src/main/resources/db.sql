@@ -6,6 +6,7 @@ CREATE TABLE users (
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     enabled TINYINT(1) NOT NULL DEFAULT 1,
+    admin TINYINT(1) NOT NULL DEFAULT 0,
     UNIQUE KEY unique_username (username)
 );
 
@@ -23,14 +24,14 @@ CREATE TABLE authorities (
 );
 
 -- Insertar el usuario con rol ROLE_ADMIN
-INSERT INTO users (username, password, enabled) VALUES ('admin', '$2a$10$t2dQcpC6wsexSCbqQb0Zq.G1oNQU5WOAhyUM70MarllcydaM1IfIa', 1);
+INSERT INTO users (username, password, enabled) VALUES ('admin', '$2a$10$t2dQcpC6wsexSCbqQb0Zq.G1oNQU5WOAhyUM70MarllcydaM1IfIa', 1, 1);
 
 -- Asignar el rol ROLE_ADMIN al usuario
 INSERT INTO authorities (user_id, authority) SELECT id, 'ROLE_ADMIN' FROM users WHERE username = 'admin';
 INSERT INTO authorities (user_id, authority) SELECT id, 'ROLE_USER' FROM users WHERE username = 'admin';
 
 -- Insertar el usuario con rol ROLE_USER
-INSERT INTO users (username, password, enabled) VALUES ('user', '$2a$10$wt.Os6CDsRqhzXQhKB6NGO6J4rGncoI68EEmqNAEiblZtHHE/a2T.', 1);
+INSERT INTO users (username, password, enabled) VALUES ('user', '$2a$10$wt.Os6CDsRqhzXQhKB6NGO6J4rGncoI68EEmqNAEiblZtHHE/a2T.', 1, 1);
 
 -- Asignar el rol ROLE_USER al usuario
 INSERT INTO authorities (user_id, authority) SELECT id, 'ROLE_USER' FROM users WHERE username = 'user';

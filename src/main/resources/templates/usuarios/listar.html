@@ -16,9 +16,6 @@
             <div class="card-body">
                 <h4 class="card-title">
                     <a class="btn btn-primary btn-xs mt-1 mb-2" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/usuarios/form}" th:text="#{text.usuario.crear}">Crear usuarios</a>
-                    <a th:href="@{'/usuarios/listar'(format=csv)}" class="btn btn-success btn-xs float-end mt-1 mx-1 mb-2" th:text="CSV">CSV</a>
-                    <a th:href="@{'/usuarios/listar'(format=xml)}" class="btn btn-outline-success btn-xs float-end mt-1 mx-1 mb-2" th:text="XML">XML</a>
-                    <a th:href="@{'/usuarios/listar'(format=json)}" class="btn btn-outline-warning btn-xs float-end mt-1 mx-1 mb-2" th:text="JSON">JSON</a>
                 </h4>
                 <table class="table table-striped table-bordered">
                     <thead class="table-dark">
@@ -33,8 +30,9 @@
                     </thead>
                     <tbody>
                         <tr th:each="usuario: ${usuarios}">
-                            <td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-primary" th:href="@{'/usuarios/ver/'} + ${usuario.id}"
-                                    th:text="${usuario.id}"></a></td>
+                            <td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${usuario.id}">
+                                <!-- <a class="btn btn-primary" th:href="@{'/usuarios/ver/'} + ${usuario.id}" th:text="${usuario.id}"></a> -->
+                            </td>
                             <td sec:authorize="hasRole('ROLE_ADMIN')" th:text="${usuario.username}"></td>
                             <td sec:authorize="hasRole('ROLE_ADMIN')">
                                 <span th:each="rol: ${usuario.roles}" th:text="${rol.authority} + ', '"></span>

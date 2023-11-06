@@ -36,7 +36,7 @@
                     <div class="form-group row mt-3">
                         <label class="col-form-label col-sm-2" for="password" th:text="#{text.login.password}">Contraseña</label>
                         <div class="col-sm-6">
-                            <input class="form-control" type="text" th:field="*{password}"
+                            <input class="form-control" type="password" th:field="*{password}"
                                 th:errorclass="'form-control alert alert-danger'" />
                             <small class="form-text text-danger" th:if="${#fields.hasErrors('password')}"
                                 th:errors="*{password}">
@@ -44,7 +44,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row mt-3 align-items-center">
+                    <div class="form-group row mt-3 align-items-center" th:if="${usuario.id == null}">
                         <label class="col-form-label col-sm-2" for="rol" th:text="#{text.usuario.admin}">Administrador/a</label>
                         <div class="col-sm-6">
                             <div class="form-check">
