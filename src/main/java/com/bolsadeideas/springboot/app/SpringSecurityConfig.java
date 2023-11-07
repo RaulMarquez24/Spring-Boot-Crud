@@ -51,7 +51,7 @@ public class SpringSecurityConfig {
                         mvc.pattern("/images/**"),
                         mvc.pattern("/listar**"),
                         mvc.pattern("/locale"),
-                        mvc.pattern("/api/clientes/**")).permitAll()
+                        mvc.pattern("/api/**")).permitAll()
                         // .requestMatchers(mvc.pattern("/uploads/**")).hasAnyRole("USER")
                         // .requestMatchers(mvc.pattern("/ver/**")).hasRole("USER")
                         // .requestMatchers(mvc.pattern("/factura/**")).hasRole("ADMIN")
