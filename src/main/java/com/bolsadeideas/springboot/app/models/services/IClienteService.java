@@ -17,6 +17,8 @@ public interface IClienteService {
 
     public Cliente save(Cliente cliente);
 
+    public List<Cliente> saveAll(List<Cliente> clientes);
+
     public Cliente findOne(Long id);
 
     public Cliente fetchByIdWithFacturas(Long id);

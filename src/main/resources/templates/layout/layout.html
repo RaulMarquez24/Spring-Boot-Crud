@@ -29,15 +29,18 @@
                             <a class="nav-link" th:href="@{/listar}" th:text="#{text.menu.customer}">Clientes</a>
                         </li>
                         <li class="nav-item">
+                            <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" th:href="@{/productos/listar}" th:text="#{text.menu.product}">Productos</a>
+                        </li>
+                        <li class="nav-item">
                             <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" th:href="@{/usuarios/listar}" th:text="#{text.menu.user}">Usuarios</a>
                         </li>
                     </ul>
-                    <form class="d-flex" role="search">
+                    <!-- <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" th:placeholder="#{text.menu.search}"
                             aria-label="Search">
                         <button class="btn btn-outline-success" type="submit"
                             th:text="#{text.menu.search}">Search</button>
-                    </form>
+                    </form> -->
 
 
                     <ul class="navbar-nav justify-content-end ms-2">

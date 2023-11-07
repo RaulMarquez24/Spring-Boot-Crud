@@ -12,6 +12,8 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "productos")
@@ -21,8 +23,10 @@ public class Producto implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     private String nombre;
 
+    @NotNull
     private Double precio;
 
     @Temporal(TemporalType.DATE)
@@ -32,6 +36,14 @@ public class Producto implements Serializable {
     @PrePersist
     public void prePersist() {
         createAt = new Date();
+    }
+
+    public Producto() {
+    }
+
+    public Producto(String nombre, Double precio) {
+        this.nombre = nombre;
+        this.precio = precio;
     }
 
     public Long getId() {
@@ -65,6 +77,15 @@ public class Producto implements Serializable {
     public void setCreateAt(Date createAt) {
         this.createAt = createAt;
     }
+
+
+    
+    @Override
+    public String toString() {
+        return ""+ id + " " + nombre + " " + precio + "";
+    }
+
+
 
     private static final long serialVersionUID = 1L;
 

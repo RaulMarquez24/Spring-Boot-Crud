@@ -41,6 +41,12 @@ public class ClienteServiceImpl implements IClienteService {
     }
 
     @Override
+    @Transactional
+    public List<Cliente> saveAll(List<Cliente> clientes) {
+        return (List<Cliente>) clienteDao.saveAll(clientes);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Cliente findOne(Long id) {
 

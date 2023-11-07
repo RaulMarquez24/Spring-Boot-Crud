@@ -93,15 +93,19 @@ public class UsuarioController {
 
         if (usuario.getId() == null) {
             usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-            usuario.setRoles(usuario.isAdmin() ? Arrays.asList(new Role("ROLE_ADMIN"), new Role("ROLE_USER")): Arrays.asList(new Role("ROLE_USER")));
+            usuario.setRoles(usuario.isAdmin() ? Arrays.asList(new Role("ROLE_ADMIN"), new Role("ROLE_USER"))
+                    : Arrays.asList(new Role("ROLE_USER")));
             usuario.setEnabled(true);
             mensajeFlash = messageSource.getMessage("text.usuario.flash.crear.success", null, locale);
             if (usuarioService.findByUsername(usuario.getUsername()) != null) {
                 result.rejectValue("username", "usuario.username.duplicate");
+                model.addAttribute("titulo", messageSource.getMessage("text.usuario.form.titulo.crear", null, locale));
+                return "usuarios/form";
             }
         } else {
-            
-            // usuario.setRoles(usuario.isAdmin() ? Arrays.asList(new Role("ROLE_ADMIN")) : usuario.getRoles());
+
+            // usuario.setRoles(usuario.isAdmin() ? Arrays.asList(new Role("ROLE_ADMIN")) :
+            // usuario.getRoles());
             usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
             mensajeFlash = messageSource.getMessage("text.usuario.flash.editar.success", null, locale);
         }

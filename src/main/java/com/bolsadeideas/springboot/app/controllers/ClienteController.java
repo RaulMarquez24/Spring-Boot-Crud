@@ -151,7 +151,7 @@ public class ClienteController {
         return "listar";
     }
 
-    @Secured("ROLE_ADMIN") // o -> @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @Secured("ROLE_ADMIN") // o -> @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/form")
     public String crear(Map<String, Object> model, Locale locale) {
 

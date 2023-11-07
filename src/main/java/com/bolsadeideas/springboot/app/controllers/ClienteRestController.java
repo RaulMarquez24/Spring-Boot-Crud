@@ -27,7 +27,7 @@ import com.bolsadeideas.springboot.app.view.xml.ClienteList;
 
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = { "http://localhost:4200" })
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api")
 public class ClienteRestController {
